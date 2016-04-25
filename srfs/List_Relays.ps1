@@ -1,0 +1,3 @@
+Add-PSSnapin Microsoft.Exchange.Management.PowerShell.Admin -ea "SilentlyContinue"
+
+(Get-ReceiveConnector -Identity "its-hcwnem18\SRFS-Connector").RemoteIPRanges |select @{name="Relay IP Lower";expression={$_.Lowerbound}},@{name="Relay IP Upper";expression={$_.Upperbound}},@{name="HostName";expression={([System.Net.Dns]::GetHostbyAddress("$($_.Lowerbound)")).HostName}} |Export-Csv -NoTypeInformation -Path ".\Relay_IP_Results.txt"
