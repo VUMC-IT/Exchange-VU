@@ -1,0 +1,22 @@
+$WarningPreference = "SilentlyContinue"
+
+# Load required snap ins 
+if (-not (Get-PSSnapin Quest.ActiveRoles.ADManagement -ErrorAction SilentlyContinue))
+	{Add-PSSnapin Quest.ActiveRoles.ADManagement}
+
+$VUNetID = Read-host "Enter VUNetID to check"
+
+$Check = (get-QADUser $VUNetID -includedproperties "Division").division
+
+
+If($Check -eq $Null) {
+    Write-host "$VUnetID is an invalid VUnetID" -fore red
+    }
+Else {
+    If($Check -eq "Medical" -or $Check -eq "Hospital"){
+        Write-host "$VUNetID is VUMC" -fore yellow
+        }
+    Else{
+        Write-host "$VUNetID is NOT VUMC" -fore green
+        }
+   }
